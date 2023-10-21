@@ -231,71 +231,6 @@ int main(){
 	free(v);
 	free(vold);
 	
-	/*f=fopen("mat.txt","w");
-	for(i=0;i<N;i++){
-		for(j=0;j<N;j++)
-			fprintf(f,"(%f, %f)	",creal(cM[i*N+j]),cimag(cM[i*N+j]));
-		fprintf(f,"\n");
-	}
-	fprintf(f,"\n\n\n\n\n");
-	for(i=0;i<N;i++){
-		for(j=0;j<N;j++)
-			fprintf(f,"(%.15f, %.15f)	",P[2*i*N+2*j],P[2*i*N+2*j+1]);
-		fprintf(f,"\n");
-	}
-	fprintf(f,"\n\n\n\n\n");
-	for(i=0;i<N;i++){
-		for(j=0;j<N;j++){
-			if(i==j)
-				fprintf(f,"%.15f	",diag[i]);
-			else if(i==j+1)
-				fprintf(f,"%.15f	",subdiag[i-1]);
-			else if(i==j-1)
-				fprintf(f,"%.15f	",subdiag[i]);
-			else
-				fprintf(f,"%.15f	",0);
-		}
-		fprintf(f,"\n");
-	}
-	fclose(f);*/
-	
-	/*double a,b;
-	double complex *P,*w,*v;
-	double *diag,*subdiag;
-	
-	v=malloc(sizeof(double complex)*N);
-	P=malloc(sizeof(double complex)*N*N);
-	diag=malloc(sizeof(double)*N);
-	subdiag=malloc(sizeof(double)*(N-1));
-	
-	P[0]=1+0*I;
-	v[0]=P[0];
-	for(i=1;i<N;i++){
-		P[i*N]=0+0*I;
-		v[i]=P[i*N];
-	}
-	w=matvec(cM,v);
-	a=creal(dot(w,v));
-	diag[0]=a;
-	for(i=0;i<N;i++)
-		w[i]-=(a+0*I)*v[i];
-	
-	for(i=1;i<N;i++){
-		b=norm(w);
-		fprintf(f,"\n\n");
-		subdiag[i-1]=b;
-		for(j=0;j<N;j++){
-			v[j]=w[j]/(b+0*I);
-			P[j*N+i]=v[j];
-		}
-		free(w);
-		w=matvec(cM,v);
-		a=dot(w,v);
-		diag[i]=a;
-		for(j=0;j<N;j++)
-			w[j]=w[j]-(a+0*I)*v[j]-(b+0*I)*P[j*N+i-1];
-	}*/
-	
 	
 	
 	//LAPACK
@@ -516,21 +451,6 @@ double norm(double complex *u){
 }
 
 
-//matrix-vector multiplication
-
-double complex* matvec(double complex *M, double complex *v){
-	int i,j;
-	double complex *z;
-	z=malloc(sizeof(double complex)*N);
-	for(i=0;i<N;i++){
-		z[i]=0+0*I;
-		for(j=0;j<N;j++)
-			z[i]+=M[i*N+j]*v[j];
-	}
-	return z;
-}
-
-
 //QR decomposition
 
 double* QR(double *diag,double *subdiag){
@@ -565,38 +485,5 @@ double* QR(double *diag,double *subdiag){
 		temp2=gam*subdiag[i+1];
 	}
 	return Q;
-}
-
-
-//matrix multiplication
-
-double* matmul(double *A, double *B){
-	int i,j,k;
-	double temp;
-	double *M;
-	M=malloc(sizeof(double)*N*N);
-	for(i=0;i<N;i++){
-		for(j=0;j<N;j++){
-			temp=0;
-			for(k=0;k<N;k++){
-				temp+=A[i*N+k]*B[k*N+j];
-			}
-			M[i*N+j]=temp;
-		}
-	}
-	return M;
-}
-
-
-//matrix transpose
-
-double* transp(double *A){
-	int i,j;
-	double *M;
-	M=malloc(sizeof(double)*N*N);
-	for(i=0;i<N;i++)
-		for(j=0;j<N;j++)
-			M[j*N+i]=A[i*N+j];
-	return M;
 }
 
