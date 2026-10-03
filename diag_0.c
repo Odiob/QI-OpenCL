@@ -9,11 +9,8 @@
 #include <string.h>
 #include <time.h>
 
-#ifdef __APPLE__
-#include <OpenCL/opencl.h>
-#else
+#define CL_TARGET_OPENCL_VERSION 200
 #include <CL/cl.h>
-#endif
 
 #define MAX_SOURCE_SIZE (0x100000)
 
@@ -38,7 +35,7 @@ int main() {
   char str[40];
   sprintf(str, "-cl-std=CL1.2 -D N=%d", N);
   FILE *f;
-  int i, j, k;
+  int i, j;
   double *M;
   double complex *cM;
   M = (double *)malloc(sizeof(double) * 2 * N * N);
@@ -64,7 +61,7 @@ int main() {
   clGetPlatformIDs(num_platforms, platforms, NULL);
   printf("Number of Platforms detected: %d\n", num_platforms);
   char name[40];
-  for (i = 0; i < num_platforms; i++) {
+  for (i = 0; i < (int)num_platforms; i++) {
     clGetPlatformInfo(platforms[i], CL_PLATFORM_NAME, sizeof(name), &name,
                       NULL);
     printf("%s\n", name);
