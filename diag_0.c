@@ -33,7 +33,7 @@ int main() {
 
   N = 514; // only even numbers
   char str[40];
-  sprintf(str, "-cl-std=CL1.2 -D N=%d", N);
+  sprintf(str, "-cl-std=CL2.0 -D N=%d", N);
   FILE *f;
   int i, j;
   double *M;
@@ -73,14 +73,14 @@ int main() {
       if (loc_size % i == 0)
         loc_size = N / i;
     }
-    printf("\nAMD GPU selected\n");
+    printf("\nGPU selected\n");
   } else if (dev == 2) {
     clGetDeviceIDs(platforms[1], CL_DEVICE_TYPE_CPU, 1, &device, &num_devices);
     for (i = 1; loc_size > 8192; i++) {
       if (loc_size % i == 0)
         loc_size = N / i;
     }
-    printf("\nIntel CPU selected\n");
+    printf("\nCPU selected\n");
   }
 
   context = clCreateContext(NULL, 1, &device, NULL, NULL, NULL);
