@@ -33,10 +33,6 @@ __kernel void lanczos1(const double beta, __global cdouble *A,
                        __global cdouble *v, __global cdouble *w,
                        __global double *alpha) {
   int id = get_global_id(0);
-  int gid = get_group_id(0);
-  int ls = get_local_size(0);
-  int lid = get_local_id(0);
-  int ngr = get_num_groups(0);
 
   cdouble temp1, temp2;
   temp2 = 0;
@@ -59,10 +55,6 @@ __kernel void lanczos2(const double alpha, const double beta,
                        __global cdouble *w, __global double *ab) {
 
   int id = get_global_id(0);
-  int gid = get_group_id(0);
-  int ls = get_local_size(0);
-  int lid = get_local_id(0);
-  int ngr = get_num_groups(0);
 
   cdouble temp1;
   temp1 = w[id] - alpha * v[id] - beta * v2[id];
